@@ -131,3 +131,4 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = '/'
+ALLOWED_HOSTS =  "kalendr.eba-cjy2v6w7.eu-west-1.elasticbeanstalk.com"
