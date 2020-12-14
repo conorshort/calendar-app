@@ -132,4 +132,4 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = '/'
-ALLOWED_HOSTS =  "127.0.0.1"
+ALLOWED_HOSTS =  Config.allowed_hosts
