@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-
+from conf.config import Config
+print(Config.debug)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'd6q954gapkw$8de=aq1wu@a@xezptlsshxrym5sr%_@(#&kanf'
+SECRET_KEY = Config.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = Config.debug
 
 ALLOWED_HOSTS = []
 
@@ -131,4 +132,4 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = '/'
-ALLOWED_HOSTS =  "kalendr.eba-cjy2v6w7.eu-west-1.elasticbeanstalk.com"
+ALLOWED_HOSTS =  "127.0.0.1"
