@@ -2,7 +2,9 @@ version: '3.9'
 services:
   web:
     image: "conorshort/calendarap"
-    command: gunicorn --bind :8000 --workers 3 calendarproj.wsgi:application
+    command: >
+      bash -c "python manage.py collectstatic      
+      && gunicorn --bind :8000 --workers 3 calendarproj.wsgi:application"
     ports:
       - "80:8000"
     volumes:
