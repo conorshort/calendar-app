@@ -1,0 +1,60 @@
+
+#calendar-table{
+    table-layout:fixed;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0.5px;
+    
+}
+
+#calendar-days th{
+    text-align: center;
+    background-color: yellowgreen;
+}
+.calendar-cell {
+    transition: 100ms;
+    height: 50px;
+    border-width: 2px !important;
+}
+
+.calendar-cell:hover {
+    background-color: rgb(127, 214, 255);
+    text-shadow: 2rem;
+
+}
+
+
+
+.calendar-cell.empty, .calendar-cell.empty:hover {
+    background-color: rgb(241, 241, 241);
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  background-color: rgb(49, 62, 255);
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.today {
+    background-color: rgb(253, 219, 154);
+}
+
+.selected {
+    border-color: rgb(34, 34, 34) !important;
+    background-color: rgb(197, 255, 205);
+}
+
+.selected:hover {
+    background-color: rgb(95, 255, 116);
+}
+
+.selected.today{
+    background-color: rgb(255, 179, 37);
+}
+
+.ui-timepicker-container{ 
+     z-index:1151 !important; 
+}
