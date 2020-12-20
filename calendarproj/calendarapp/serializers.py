@@ -5,13 +5,13 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'shared_with']
 
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        exclude = ('event_day', 'shared_with', 'author')
+        exclude = ('event_day', 'shared_with')
 
     def create(self, validated_data):
         print(validated_data)

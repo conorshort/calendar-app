@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    shared_with = models.ManyToManyField('self', blank=True)
+    shared_with = models.ManyToManyField('self', blank=True, symmetrical=False)
 
 class Event(models.Model):
     author = models.ForeignKey(

@@ -24,6 +24,10 @@
 }
 
 
+#brand-text {
+    font-size: 3.2rem;
+}
+
 
 .calendar-cell.empty, .calendar-cell.empty:hover {
     background-color: rgb(241, 241, 241);

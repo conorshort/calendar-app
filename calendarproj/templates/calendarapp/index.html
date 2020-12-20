@@ -49,15 +49,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
-                        {% if user.is_authenticated %}
-                        <p>Logged in as <b>{{ user.username }}</b>!</p>
-                        <p><a href="{% url 'logout' %}">Log Out</a></p>
-                        {% endif %}
-                    </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-7">
                     <input id='search-text'></input>
                 </div>

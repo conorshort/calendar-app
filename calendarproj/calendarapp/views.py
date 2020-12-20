@@ -39,10 +39,12 @@ class EventViewSet(viewsets.ModelViewSet):
     
 
     def perform_create(self, serializer):
+        print('createingggggs')
         serializer.save(author=self.request.user,
                         id=self.request.query_params.get('id'))
 
     def get_queryset(self):
+        print('hi')
         queryset = self.queryset
 
         day = self.request.query_params.get('day')
@@ -51,13 +53,25 @@ class EventViewSet(viewsets.ModelViewSet):
         query = self.request.query_params.get('query')
 
         if query:
+            # users = [self.request.user]
+            # users += list(self.request.user.user_set.all())
+            # print(users)
+            # queryset = self.queryset.filter(author__in=users)
             return queryset.filter(title__contains=query)
 
         if day and month and year:
+            # users = [self.request.user]
+            # users += list(self.request.user.user_set.all())
+            # print(users)
+            # queryset = self.queryset.filter(author__in=users)
             day, month, year = [int(x) for x in [day, month, year]]
             return queryset.filter(event_date__contains=dt.date(year, month, day))
 
         if month and year:
+            # users = [self.request.user]
+            # users += list(self.request.user.user_set.all())
+            # print(users)
+            # queryset = self.queryset.filter(author__in=users)
             return queryset.filter(event_date__month=month,
                                         event_date__year=year)
 
