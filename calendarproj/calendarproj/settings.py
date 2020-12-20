@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
-    'calendarapp'
+    'calendarapp',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -136,4 +137,6 @@ STATICFILES_DIRS = [
 
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 ALLOWED_HOSTS =  Config.allowed_hosts

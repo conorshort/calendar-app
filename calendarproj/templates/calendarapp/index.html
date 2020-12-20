@@ -10,7 +10,9 @@
 {% block body %}
 
 <div class="container">
-    <div class="row"></div>
+    <div class="row">
+
+    </div>
     <div class="row">
         <div class="col-12">
             <h1 id="month-name"></h1>
@@ -37,22 +39,39 @@
             </table>
         </div>
         <div class="col-4">
-            <div>
-                <button id="show-create-modal" type="button" class="btn btn-primary" data-toggle="modal"
-                    data-target="#event-modal">
-                    Create Event
-                </button>
+            <div class='container'>
+                <div class="row">
+                    <div class="col-12">
+                        <button id="show-create-modal" type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#event-modal">
+                            Create Event
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        {% if user.is_authenticated %}
+                        <p>Logged in as <b>{{ user.username }}</b>!</p>
+                        <p><a href="{% url 'logout' %}">Log Out</a></p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <div>
-                <input id='search-text'></input>
-                <button id='search-button'>Search</button>
-            </div>
-            <h3 id="details-date"></h3>
-            <div id="details-div">
-
+            <div class="row">
+                <div class="col-7">
+                    <input id='search-text'></input>
+                </div>
+                <div class="col-5">
+                    <button id='search-button'>Search</button>
+                </div>
             </div>
         </div>
+        <h3 id="details-date"></h3>
+        <div id="details-div">
+
+        </div>
     </div>
+</div>
 </div>
 
 

@@ -30,5 +30,6 @@ urlpatterns = [
     path('', include('calendarapp.urls')),
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls'))
 ]
