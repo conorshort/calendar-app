@@ -4,6 +4,9 @@
 <html lang="en">
 
 <head>
+    {{ request.user.id|json_script:"user_id" }}
+    {{ request.user.username|json_script:"username" }}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kalendr</title>

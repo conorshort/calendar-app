@@ -14,11 +14,30 @@
 
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-8">
             <h1 id="month-name"></h1>
             <button id='prev-month'>
                 << </button>
-                    <button id='next-month'> >> </button>
+                    <button id='next-month'>
+                        >>
+                    </button>
+
+        </div>
+        <div class="col">
+            <label for="sel1">Select a user to share your calendar with.
+                All of your events will then be visible on their calendar.
+            </label>
+            <select class="form-control" id="user-select">
+                {% for user in users %}
+
+                <option value='{{ user.id }}'>{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            <button id="share-cal" type="button" class="btn btn-primary mt-1 mb-2">
+                Share!
+            </button>
+            <span id="cal-shared" class="ml-2">Calendar shared!</span>
+            <span id="cal-not-shared" class="ml-2">Something went wrong!</span>
         </div>
     </div>
     <div class="row">
@@ -40,6 +59,9 @@
         </div>
         <div class="col-4">
             <div class='container'>
+                <div class="row mb-2">
+
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <button id="show-create-modal" type="button" class="btn btn-primary" data-toggle="modal"
@@ -59,13 +81,12 @@
                     <button id='search-button'>Search</button>
                 </div>
             </div>
-        </div>
-        <h3 id="details-date"></h3>
-        <div id="details-div">
+            <h3 id="details-date"></h3>
+            <div id="details-div">
 
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 

@@ -16,8 +16,9 @@ from .serializers import EventSerializer, UserSerializer
 @ensure_csrf_cookie
 @login_required
 def index(request):
-
-    return render(request, 'calendarapp/index.html')
+    context = {"users": list(User.objects.all())}
+    print('hell')
+    return render(request, 'calendarapp/index.html', context)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,7 +28,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
-
+    
 
 class EventViewSet(viewsets.ModelViewSet):
     """
@@ -40,6 +41,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         print('createingggggs')
+        print
         serializer.save(author=self.request.user,
                         id=self.request.query_params.get('id'))
 
@@ -52,29 +54,23 @@ class EventViewSet(viewsets.ModelViewSet):
         year = self.request.query_params.get('year')
         query = self.request.query_params.get('query')
 
-        if query:
-            # users = [self.request.user]
-            # users += list(self.request.user.user_set.all())
-            # print(users)
-            # queryset = self.queryset.filter(author__in=users)
-            return queryset.filter(title__contains=query)
+        if (not query) or (not year):
+            users = [self.request.user]
+            users += list(self.request.user.user_set.all())
+            print(users)
+            queryset = self.queryset.filter(author__in=users)
 
-        if day and month and year:
-            # users = [self.request.user]
-            # users += list(self.request.user.user_set.all())
-            # print(users)
-            # queryset = self.queryset.filter(author__in=users)
-            day, month, year = [int(x) for x in [day, month, year]]
-            return queryset.filter(event_date__contains=dt.date(year, month, day))
+            if query:
+                return queryset.filter(title__contains=query)
 
-        if month and year:
-            # users = [self.request.user]
-            # users += list(self.request.user.user_set.all())
-            # print(users)
-            # queryset = self.queryset.filter(author__in=users)
-            return queryset.filter(event_date__month=month,
-                                        event_date__year=year)
+            if day and month and year:
+                day, month, year = [int(x) for x in [day, month, year]]
+                return queryset.filter(event_date__contains=dt.date(year, month, day))
 
+            if month and year:
+                return queryset.filter(event_date__month=month,
+                                            event_date__year=year)
+        
         return queryset
     
 
