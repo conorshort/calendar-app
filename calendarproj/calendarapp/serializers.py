@@ -1,3 +1,11 @@
+"""
+Serialier from Django rest framework
+These simplify the adding, updating, deleting and getting
+items from the database
+"""
+
+
+
 from .models import User, Event
 from rest_framework import serializers
 
@@ -10,25 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         new_shared_with = validated_data.get('shared_with')
         for user in new_shared_with:
-         instance.shared_with.add(user.id)
-
-        print(instance)
+            instance.shared_with.add(user.id)
         return instance
-
-    # def update(self, instance, validated_attrs):
-    #     new_groups = validated_attrs.get('groups')
-    #     for group in new_groups:
-    #         instance.groups.add(group)
-    #     instance.save()
-    #     # below is needed to reflect the group changes in the response
-    #     # instance = User.objects.get(id=instance.id)
-
 
 
 class EventSerializer(serializers.ModelSerializer):
     author = UserSerializer()
 
-    # id = serializers.IntegerField()
+
     author=serializers.CharField(required=False,default=False)
     class Meta:
         model = Event

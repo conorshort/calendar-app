@@ -8,10 +8,12 @@ class User(AbstractUser):
     shared_with = models.ManyToManyField('self', blank=True, symmetrical=False)
 
 class Event(models.Model):
+    
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE
     )
+
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=200, null=True, blank=True)
     event_day = models.IntegerField(null=True, blank=True)

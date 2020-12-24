@@ -17,7 +17,6 @@ from .serializers import EventSerializer, UserSerializer
 @login_required
 def index(request):
     context = {"users": list(User.objects.all())}
-    print('hell')
     return render(request, 'calendarapp/index.html', context)
 
 
@@ -40,13 +39,15 @@ class EventViewSet(viewsets.ModelViewSet):
     
 
     def perform_create(self, serializer):
-        print('createingggggs')
-        print
+        # Set the author of the created event as the currently signed in user
         serializer.save(author=self.request.user,
                         id=self.request.query_params.get('id'))
 
     def get_queryset(self):
-        print('hi')
+        """
+        This function returns the appropriate events depending on the 
+        args given in the get request
+        """
         queryset = self.queryset
 
         day = self.request.query_params.get('day')
@@ -55,6 +56,9 @@ class EventViewSet(viewsets.ModelViewSet):
         query = self.request.query_params.get('query')
 
         if (not query) or (not year):
+
+            # Here we get users who have shared their calendar with
+            # the current user.
             users = [self.request.user]
             users += list(self.request.user.user_set.all())
             print(users)
