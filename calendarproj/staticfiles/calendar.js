@@ -1,4 +1,8 @@
+
+
+
 function getCookie(name) {
+    // A function to get a cookie by name
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
@@ -13,12 +17,16 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+// Get the CSRF token from django
 const csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
+// Set the CSRF token in all necessary HTTP requests
 $.ajaxSetup({
     beforeSend: function (xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -27,13 +35,17 @@ $.ajaxSetup({
     }
 });
 
-
+// Get the currnet user id and name from Django
+const user_id = JSON.parse(document.getElementById('user_id').textContent);
+const username = JSON.parse(document.getElementById('username').textContent);
 
 
 let DateTime = luxon.DateTime;
 
 
+// This contains are functions related to date and time
 let DateManager = (function () {
+
     const NOW = DateTime.local();
 
     return {
@@ -43,15 +55,22 @@ let DateManager = (function () {
             month: NOW.month,
             year: NOW.year
         },
+
+        // This is incremented or decremented when the user 
+        // navigate to a different month
         monthOffset: 0,
+
         nextMonth: function () {
             this.monthOffset++;
             return this.displayedMonth();
         },
+
         prevMonth: function () {
             this.monthOffset--;
             return this.displayedMonth();
         },
+
+        // Get details about the currently diplayed month
         displayedMonth: function () {
 
             let monthDetails = {}
@@ -73,7 +92,7 @@ let DateManager = (function () {
 
 
 
-
+// These are all HTTP request function
 let RequestManager = (function () {
 
     return {
@@ -83,6 +102,7 @@ let RequestManager = (function () {
         getEventsForMonth: function (dt) {
             return $.getJSON('/events', { month: dt.month, year: dt.year });
         },
+
         getEventsOnDate: function (dt) {
             return $.getJSON('/events', { day: dt.day, month: dt.month, year: dt.year });
         },
@@ -92,8 +112,10 @@ let RequestManager = (function () {
         },
 
         addEvent: function (eventDetails) {
+            eventDetails.author = -1;
             return $.post("/events/", eventDetails);
         },
+
         editEvent: function (eventDetails, eventId) {
             return $.ajax({
                 method: "PUT",
@@ -101,21 +123,34 @@ let RequestManager = (function () {
                 data: eventDetails
             });
         },
-        deleteEvent: function (eventId) {
 
+        deleteEvent: function (eventId) {
             return $.ajax({
                 method: "DELETE",
                 url: `/events/${eventId}/`,
             });
-        }
+        },
+
+        updatedSharedWith: function (otherUser) {
+            return $.ajax({
+                method: "PUT",
+                url: `/users/${user_id}/`,
+                data: { username:username, shared_with:otherUser}
+            });
+        },
 
 
 
     }
 })();
 
+
+// These are functions that update the UI in some wat
 let UiManager = (function () {
 
+    // Restrucute the events coming from django to a more useful
+    // format. Returns and object with the event dates as keys and 
+    // details as values.
     function restructureEvents(events) {
         let eventsObj = {};
         events = events || [];
@@ -127,18 +162,21 @@ let UiManager = (function () {
             eventsObj[day].push(event);
         });
         return eventsObj;
-
     }
 
-    const eventDetails = ({ id, title, start_time, end_time, description, event_date }) => `
+    // Template for event details
+    const eventDetails = ({ id, title, author, start_time, end_time, description, event_date }) => `
                 <div data-event-id=${id} data-event-date=${event_date}>
                     <button class='edit-event'>Edit</button><button class='delete-event'>Delete</button>
                     <h4 class="details-title">${title}</h4>
+                    <h4 class="details-title">Created by: ${author}</h4>
                     <p class="details-from">From: ${start_time.slice(0, -3)}</p>
                     <p class="details-to">To: ${end_time.slice(0, -3)}</p>
                     <p class="details-desc">${description}</p>
                 </div>
                 `;
+
+    // Template for search event details
     const searchDetails = ({ id, title, start_time, end_time, description, event_date }) => `
                 <div data-event-id=${id} data-event-date=${event_date}>
                     <button class='edit-event'>Edit</button><button class='delete-event'>Delete</button>
@@ -153,6 +191,8 @@ let UiManager = (function () {
     return {
         $selectedDate: $('p'),
         thisMonthsEvents: {},
+
+        // Shows the details of events on a chosen date
         showDateDetails: function (dt) {
             const dateDetailsStr = `${dt.day} ${dt.monthLong} ${dt.year}`;
 
@@ -166,6 +206,8 @@ let UiManager = (function () {
                 $('#details-div').html(noEvents);
             }
         },
+
+        // Shows the results of a search
         showSearchDetails: function (events) {
             if (events) {
                 $('#details-div').html(events.map(searchDetails).join(''));
@@ -177,7 +219,8 @@ let UiManager = (function () {
 
 
 
-
+        // This function populates the calendar with dates based on the current month
+        // while also adding dots indicating an event on that date
         updateCalendarTable: function (monthDetails, events) {
             events = restructureEvents(events);
             this.thisMonthsEvents = events;
@@ -218,14 +261,15 @@ let UiManager = (function () {
                         $dot = $('<span></span>').addClass("dot")
                         $cell.append($dot)
                     }
+                    // Add the cell tok the table
                     $tableRow.append($cell);
                 }
                 $('#calendar-body').append($tableRow);
             }
         },
 
+        // Get the values from the modal
         getValuesFromModal: function () {
-
             let eventDetails = {
                 title: $('#create-title').val(),
                 event_date: $('#create-datepicker').val().split('-').reverse().join('-'),
@@ -235,6 +279,8 @@ let UiManager = (function () {
             }
             return eventDetails
         },
+
+        // Set the values in the modal for event editing
         setValuesInModal: function (eventDetails) {
             $('#create-datepicker').val(eventDetails.event_date);
             $('#create-title').val(eventDetails.title);
@@ -242,6 +288,7 @@ let UiManager = (function () {
             $('#create-end-time').val(eventDetails.end_time);
             $('#create-description').val(eventDetails.description);
         },
+
         clearModal: function() {
             let elems = ['#create-datepicker',
             '#create-title',
@@ -251,6 +298,10 @@ let UiManager = (function () {
             elems.forEach(elem => {
                 $(elem).val('');
             });
+        },
+
+        getCurrentUserOption: function() {
+            return $('#user-select').val();
         }
     }
 }
@@ -259,7 +310,7 @@ let UiManager = (function () {
 
 
 
-
+// This is the overall controller
 let controller = (function (Reqs, Ui, Dates) {
 
     let refreshUI = function () {
@@ -299,6 +350,7 @@ let controller = (function (Reqs, Ui, Dates) {
             }
         });
 
+        // Editing an event
         $("#details-div").on('click', '.edit-event', function (e) {
             let $parentDiv = $(e.target).parent()
             Reqs.currentEventId = parseInt($parentDiv.attr('data-event-id'));
@@ -314,12 +366,13 @@ let controller = (function (Reqs, Ui, Dates) {
             $('#event-modal').modal();
         });
 
+        // Delete event
         $("#details-div").on('click', '.delete-event', function (e) {
             let eventId = $(e.target).parent().attr('data-event-id');
             Reqs.deleteEvent(eventId).done(refreshUI);
         });
 
-
+        // Save event
         $('#create-save').click(function () {
             let eventDetails = Ui.getValuesFromModal();
             if (Reqs.currentEventId < 0) {
@@ -336,7 +389,7 @@ let controller = (function (Reqs, Ui, Dates) {
         });
         
 
-
+        
         $('#show-create-modal').click(function () {
             Reqs.currentEventId = -1;
         });
@@ -352,6 +405,19 @@ let controller = (function (Reqs, Ui, Dates) {
         $('#event-modal').on('hidden.bs.modal', function (e) {
             Ui.clearModal();
         })
+
+        $('#share-cal').click("share-with-user", function(){
+            let userToShareWith = Ui.getCurrentUserOption()
+            console.log(userToShareWith)
+            Reqs.updatedSharedWith(userToShareWith).done(function(){
+                console.log('hi')
+                $('#cal-shared').show()
+                $('#cal-not-shared').hide()
+            }).fail(() => {
+                $('#cal-not-shared').show()
+                $('#cal-shared').hide()
+            });
+        })
     };
 
     return {
@@ -359,7 +425,7 @@ let controller = (function (Reqs, Ui, Dates) {
         init: function () {
 
             $(document).ready(function () {
-
+                $('#cal-shared, #cal-not-shared').hide();
                 setupEventListeners();
 
                 Reqs.getEventsForMonth(Dates.displayedMonth().dt).done(function (events) {
