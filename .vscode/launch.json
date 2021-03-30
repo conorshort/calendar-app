@@ -8,7 +8,7 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}\\calendarproj\\manage.py",
+            "program": "${workspaceFolder}/calendarproj/manage.py",
             "args": [
                 "runserver"
             ],
