@@ -107,8 +107,8 @@ let RequestManager = (function () {
             return $.getJSON('/events', { day: dt.day, month: dt.month, year: dt.year });
         },
 
-        getEventsWithSearch: function(searchText){
-            return $.getJSON('/events', { query: searchText});
+        getEventsWithSearch: function (searchText) {
+            return $.getJSON('/events', { query: searchText });
         },
 
         addEvent: function (eventDetails) {
@@ -135,7 +135,7 @@ let RequestManager = (function () {
             return $.ajax({
                 method: "PUT",
                 url: `/users/${user_id}/`,
-                data: { username:username, shared_with:otherUser}
+                data: { username: username, shared_with: otherUser }
             });
         },
 
@@ -166,27 +166,43 @@ let UiManager = (function () {
 
     // Template for event details
     const eventDetails = ({ id, title, author, start_time, end_time, description, event_date }) => `
-                <div data-event-id=${id} data-event-date=${event_date}>
-                    <button class='edit-event'>Edit</button><button class='delete-event'>Delete</button>
-                    <h4 class="details-title">${title}</h4>
-                    <h4 class="details-title">Created by: ${author}</h4>
-                    <p class="details-from">From: ${start_time.slice(0, -3)}</p>
-                    <p class="details-to">To: ${end_time.slice(0, -3)}</p>
-                    <p class="details-desc">${description}</p>
+                <div data-event-id=${id} data-event-date=${event_date} class="card mt-2">
+                    <div class="card-body">
+                        <h4 class="details-title card-title">${title}</h4>
+                        <p class="details-from card-text">From: ${start_time.slice(0, -3)}</p>
+                        <p class="details-to card-text">To: ${end_time.slice(0, -3)}</p>
+                        <hr/>
+                        <p class="details-desc card-text">${description}</p>
+                        <hr/>
+                        <div class="btn-group">
+                            <button class='edit-event btn btn-outline-primary'>Edit</button>
+                            <button class='delete-event btn btn-outline-primary'>Delete</button>
+                        </div>
+                    </div>
                 </div>
                 `;
 
     // Template for search event details
     const searchDetails = ({ id, title, start_time, end_time, description, event_date }) => `
-                <div data-event-id=${id} data-event-date=${event_date}>
-                    <button class='edit-event'>Edit</button><button class='delete-event'>Delete</button>
-                    <h4 class="details-title">${title}</h4>
-                    <h4 class="details-title">${event_date}</h4>
-                    <p class="details-from">From: ${start_time.slice(0, -3)}</p>
-                    <p class="details-to">To: ${end_time.slice(0, -3)}</p>
-                    <p class="details-desc">${description}</p>
+            <div data-event-id=${id} data-event-date=${event_date} class="card mt-2">
+                <div class="card-body">
+                    <h4 class="details-title card-title">${title}</h4>
+                    <h4 class="details-search-date">${event_date}</h4>
+                    <p class="details-from card-text">From: ${start_time.slice(0, -3)}</p>
+                    <p class="details-to card-text">To: ${end_time.slice(0, -3)}</p>
+                    <hr />
+                    <p class="details-desc card-text">${description}</p>
+                    <hr />
+                    <div class="btn-group">
+                        <button class='edit-event btn btn-outline-primary'>Edit</button>
+                        <button class='delete-event btn btn-outline-primary'>Delete</button>
+                    </div>
                 </div>
+            </div>
                 `;
+
+
+
 
     return {
         $selectedDate: $('p'),
@@ -194,7 +210,7 @@ let UiManager = (function () {
 
         // Shows the details of events on a chosen date
         showDateDetails: function (dt) {
-            const dateDetailsStr = `${dt.day} ${dt.monthLong} ${dt.year}`;
+            const dateDetailsStr = `${dt.day} ${dt.monthLong} ${dt.year} `;
 
             $('#details-date').text(dateDetailsStr);
 
@@ -209,7 +225,10 @@ let UiManager = (function () {
 
         // Shows the results of a search
         showSearchDetails: function (events) {
-            if (events) {
+
+            $('#details-date').text("Search results");
+ 
+            if (events.length) {
                 $('#details-div').html(events.map(searchDetails).join(''));
             } else {
                 const noEvents = $('<div></div>').text('No events match this search.')
@@ -226,7 +245,7 @@ let UiManager = (function () {
             this.thisMonthsEvents = events;
             console.log(events);
             $('#calendar-body').html('');
-            $('#month-name').text(`${monthDetails.monthName} ${monthDetails.year}`);
+            $('#month-name').text(`${monthDetails.monthName} ${monthDetails.year} `);
             let displayDate = 1 - monthDetails.firstDayofMonth;
 
             while (displayDate <= monthDetails.daysInMonth) {
@@ -289,18 +308,18 @@ let UiManager = (function () {
             $('#create-description').val(eventDetails.description);
         },
 
-        clearModal: function() {
+        clearModal: function () {
             let elems = ['#create-datepicker',
-            '#create-title',
-            '#create-start-time',
-            '#create-end-time',
-            '#create-description'];
+                '#create-title',
+                '#create-start-time',
+                '#create-end-time',
+                '#create-description'];
             elems.forEach(elem => {
                 $(elem).val('');
             });
         },
 
-        getCurrentUserOption: function() {
+        getCurrentUserOption: function () {
             return $('#user-select').val();
         }
     }
@@ -352,7 +371,7 @@ let controller = (function (Reqs, Ui, Dates) {
 
         // Editing an event
         $("#details-div").on('click', '.edit-event', function (e) {
-            let $parentDiv = $(e.target).parent()
+            let $parentDiv = $(e.target).parent().parent().parent();
             Reqs.currentEventId = parseInt($parentDiv.attr('data-event-id'));
             let eventDate = $parentDiv.attr('data-event-date').split('-').reverse().join('-');
             let eventDetails = {
@@ -368,7 +387,7 @@ let controller = (function (Reqs, Ui, Dates) {
 
         // Delete event
         $("#details-div").on('click', '.delete-event', function (e) {
-            let eventId = $(e.target).parent().attr('data-event-id');
+            let eventId = $(e.target).parent().parent().parent().attr('data-event-id');
             Reqs.deleteEvent(eventId).done(refreshUI);
         });
 
@@ -382,14 +401,14 @@ let controller = (function (Reqs, Ui, Dates) {
             }
         });
 
-        $('#search-button').click(function(){
+        $('#search-button').click(function () {
             let searchText = $('#search-text').val();
             Reqs.getEventsWithSearch(searchText).done(Ui.showSearchDetails);
 
         });
-        
 
-        
+
+
         $('#show-create-modal').click(function () {
             Reqs.currentEventId = -1;
         });
@@ -406,10 +425,10 @@ let controller = (function (Reqs, Ui, Dates) {
             Ui.clearModal();
         })
 
-        $('#share-cal').click("share-with-user", function(){
+        $('#share-cal').click("share-with-user", function () {
             let userToShareWith = Ui.getCurrentUserOption()
             console.log(userToShareWith)
-            Reqs.updatedSharedWith(userToShareWith).done(function(){
+            Reqs.updatedSharedWith(userToShareWith).done(function () {
                 console.log('hi')
                 $('#cal-shared').show()
                 $('#cal-not-shared').hide()
@@ -430,6 +449,7 @@ let controller = (function (Reqs, Ui, Dates) {
 
                 Reqs.getEventsForMonth(Dates.displayedMonth().dt).done(function (events) {
                     Ui.updateCalendarTable(Dates.displayedMonth(), events);
+                    Ui.showDateDetails(Dates.current.now);
                 });
 
             });

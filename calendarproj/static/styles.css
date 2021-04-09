@@ -1,3 +1,7 @@
+h1 {
+    width: 300px;
+}
+
 
 #calendar-table{
     table-layout:fixed;
