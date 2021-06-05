@@ -13,7 +13,7 @@ h1 {
 
 #calendar-days th{
     text-align: center;
-    background-color: yellowgreen;
+    background-color: rgb(170, 208, 228);
 }
 .calendar-cell {
     transition: 100ms;
@@ -65,4 +65,15 @@ h1 {
 
 .ui-timepicker-container{ 
      z-index:1151 !important; 
+}
+
+.helptext {
+    display: block;
+}
+
+.helptext ul, .errorlist {
+    list-style-type: none;
+}
+.errorlist li {
+    color: red;
 }

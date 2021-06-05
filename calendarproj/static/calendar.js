@@ -227,7 +227,7 @@ let UiManager = (function () {
         showSearchDetails: function (events) {
 
             $('#details-date').text("Search results");
- 
+
             if (events.length) {
                 $('#details-div').html(events.map(searchDetails).join(''));
             } else {
@@ -295,8 +295,9 @@ let UiManager = (function () {
                 start_time: $('#create-start-time').val(),
                 end_time: $('#create-end-time').val(),
                 description: $('#create-description').val()
-            }
-            return eventDetails
+            };
+
+            return eventDetails;
         },
 
         // Set the values in the modal for event editing
@@ -393,11 +394,16 @@ let controller = (function (Reqs, Ui, Dates) {
 
         // Save event
         $('#create-save').click(function () {
+            // ("#all-fields-alert").hide();
             let eventDetails = Ui.getValuesFromModal();
-            if (Reqs.currentEventId < 0) {
-                Reqs.addEvent(eventDetails).done(refreshUI);
+            if (eventDetails) {
+                if (Reqs.currentEventId < 0) {
+                    Reqs.addEvent(eventDetails).done(refreshUI);
+                } else {
+                    Reqs.editEvent(eventDetails, Reqs.currentEventId).done(refreshUI);
+                }
             } else {
-                Reqs.editEvent(eventDetails, Reqs.currentEventId).done(refreshUI);
+                // ("#all-fields-alert").show();
             }
         });
 
