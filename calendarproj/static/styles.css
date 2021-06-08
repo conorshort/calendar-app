@@ -1,7 +1,18 @@
+body {
+
+    font-family: 'Nunito', cursive;
+    font-size: 1.05em;
+}
+
+
 h1 {
     width: 300px;
 }
 
+
+#month-name {
+    width: 400px;
+}
 
 #calendar-table{
     table-layout:fixed;

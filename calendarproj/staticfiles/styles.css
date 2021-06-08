@@ -1,3 +1,18 @@
+body {
+
+    font-family: 'Nunito', cursive;
+    font-size: 1.05em;
+}
+
+
+h1 {
+    width: 300px;
+}
+
+
+#month-name {
+    width: 400px;
+}
 
 #calendar-table{
     table-layout:fixed;
@@ -9,7 +24,7 @@
 
 #calendar-days th{
     text-align: center;
-    background-color: yellowgreen;
+    background-color: rgb(170, 208, 228);
 }
 .calendar-cell {
     transition: 100ms;
@@ -61,4 +76,15 @@
 
 .ui-timepicker-container{ 
      z-index:1151 !important; 
+}
+
+.helptext {
+    display: block;
+}
+
+.helptext ul, .errorlist {
+    list-style-type: none;
+}
+.errorlist li {
+    color: red;
 }
