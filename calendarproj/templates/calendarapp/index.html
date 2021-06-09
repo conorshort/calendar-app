@@ -9,7 +9,7 @@
 <!-- HTML -->
 {% block body %}
 
-<div class="container">
+<div class="container card mt-2 p-5">
 
     <!-- Main row for all content -->
     <div class="row">
@@ -30,14 +30,7 @@
 
                 </div>
             </div>
-            <div class="row">
-                <div class="text-center col-12">
-                    <button id="show-create-modal" type="button" class="btn btn-secondary w-50 mb-3" data-toggle="modal"
-                        data-target="#event-modal">
-                        Create Event
-                    </button>
-                </div>
-            </div>
+
             <div class="row">
                 <div class="col-12">
                     <table id="calendar-table" class="table table-bordered">
@@ -65,6 +58,14 @@
                 </div>
                 <div class="col-5">
                     <button id='search-button' class="btn-primary btn">Search</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center col-12">
+                    <button id="show-create-modal" type="button" class="btn btn-secondary w-50 mb-3" data-toggle="modal"
+                        data-target="#event-modal">
+                        Create Event
+                    </button>
                 </div>
             </div>
             <div class="card p-2">
