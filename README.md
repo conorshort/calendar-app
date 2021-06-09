@@ -8,18 +8,18 @@ It is simple app where a logged in user can view, add, edit, and remove events f
 It can be viewed here: 178.62.0.132
 
 The technologies used include:
-    #### Backend
+   #### Backend
     - Python
     - Django
     - Django Rest Framework
-    #### Database
+   #### Database
     - MySQL
-    #### Deployment
+   #### Deployment
     - Originally deployed on Elastic Beanstalk
     - Currently deployed on a Digital Ocean Droplet
     - Datebase on AWS RDS
     - Backend is running in a Docker container
-    #### Frontend
+   #### Frontend
     - HTML5
     - CSS3
     - JavaScript
