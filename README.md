@@ -6,6 +6,10 @@ It is simple app where a logged in user can view, add, edit, and remove events f
 
 It is currrently deployed and can be viewed here: [http://178.62.0.132](http://178.62.0.132)
 
+![image](https://user-images.githubusercontent.com/20127808/121371570-8c589f80-c935-11eb-8fd6-6eb125b450b7.png)
+
+
+
 The technologies used include:
    #### Backend
     - Python
