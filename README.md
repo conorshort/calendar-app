@@ -4,7 +4,7 @@ This app was made as part of a project for a Cloud Computing module during my Co
  
 It is simple app where a logged in user can view, add, edit, and remove events from a calendar. 
 
-It is currrently deployed and can be viewed here: [http://178.62.0.132](http://178.62.0.13)
+It is currrently deployed and can be viewed here: [http://178.62.0.132](http://178.62.0.132)
 
 The technologies used include:
    #### Backend
