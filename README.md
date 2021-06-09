@@ -1,11 +1,10 @@
-# Kalendr
-## A simple calendar app
+# Kalendr - A simple calendar app
 
 This app was made as part of a project for a Cloud Computing module during my Comp Sci (Conversion) Master's.
  
 It is simple app where a logged in user can view, add, edit, and remove events from a calendar. 
 
-It is currrently deployed and can be viewed here: [http://178.62.0.132](178.62.0.132)
+It is currrently deployed and can be viewed here: [http://178.62.0.132](http://178.62.0.13)
 
 The technologies used include:
    #### Backend
