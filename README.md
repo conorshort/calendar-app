@@ -12,18 +12,18 @@ It is currrently deployed and can be viewed here: [http://178.62.0.132](http://1
 
 The technologies used include:
    #### Backend
-    - Python
-    - Django
-    - Django Rest Framework
+    -Python
+    -Django
+    -Django Rest Framework
    #### Database
-    - MySQL
+    -MySQL
    #### Deployment
-    - Originally deployed on Elastic Beanstalk
-    - Currently deployed on a Digital Ocean Droplet
-    - Datebase on AWS RDS
-    - Backend is running in a Docker container
+    -Originally deployed on Elastic Beanstalk
+    -Currently deployed on a Digital Ocean Droplet
+    -Datebase on AWS RDS
+    -Backend is running in a Docker container
    #### Frontend
-    - HTML5
-    - CSS3
-    - JavaScript
-    - jQuery
+    -HTML5
+    -CSS3
+    -JavaScript
+    -jQuery
